@@ -4,24 +4,30 @@ goog.module.declareLegacyNamespace();
 goog.require('plugin.video.defines');
 
 class Controller {
+    /**
+     * @param {!angular.Scope} $scope The Angular scope.
+     * @param {!angular.JQLite} $element The root DOM element.
+     * @ngInject
+     */
     constructor($scope, $element) {
-        this.url = $scope['url'];
-        this.muted = $scope['muted'];
+      this.url = $scope['url'];
+      this.muted = $scope['muted'];
     }
+
     $onInit() {
-        let player = new videojs('video_2', { muted: this.muted });
-        player.src({ type: "application/x-mpegURL", src: this.url });
-        player.play();
+      let player = new videojs('video_2', {muted: this.muted});
+      player.src({type: "application/x-mpegURL", src: this.url});
+      player.play();
     }
 }
 
 const directive = () => ({
-    restrict: 'E',
-    replace: true,
-    scope: true,
-    templateUrl: plugin.video.ROOT + 'views/video.html',
-    controller: Controller,
-    controllerAs: 'videoControl'
+  restrict: 'E',
+  replace: true,
+  scope: true,
+  templateUrl: plugin.video.ROOT + 'views/video.html',
+  controller: Controller,
+  controllerAs: 'videoControl'
 });
 
-exports = { Controller, directive };
+exports = {Controller, directive};
