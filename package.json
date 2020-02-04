@@ -1,0 +1,89 @@
+{
+  "name": "opensphere-plugin-http-video",
+  "version": "1.0.0",
+  "description": "An OpenSphere HLS video plugin",
+  "main": "index.js",
+  "directories": {
+    "src": "src",
+    "test": "test",
+    "externs": "externs",
+    "scss": "scss",
+    "views": "views"
+  },
+  "build": {
+    "type": "plugin",
+    "pluggable": false,
+    "config": [
+      "config/settings.json"
+    ],
+    "gcc": {
+      "entry_point": [
+        "goog:plugin.video.VideoPlugin"
+      ]
+    }
+  },
+  "scripts": {
+    "modernizr": "modernizr -c modernizr.config.json -u -d .build/modernizr.js",
+    "test:gcc": "os-compile .build/gcc-test-args.json",
+    "test:init": "npm run init && npm run modernizr && npm run compile:resolve && npm run test:gcc",
+    "test:run": "karma start --single-run",
+    "test": "npm run test:init && npm run test:run",
+    "test:debug": "karma start --browsers Chrome --reporters dots",
+    "init": "rimraf .build dist && mkdirp .build dist",
+    "lint:css": "sass-lint -v -s scss -i 'scss/nolint/**/*.scss' 'scss/**/*.scss'",
+    "lint:js": "eslint --cache 'src/**/*.js'",
+    "lint": "npm run lint:js && npm run lint:css",
+    "compile:resolve": "os-resolve --outputDir .build",
+    "compile:css": "node-sass $(cat .build/node-sass-args) > .build/test.min.css",
+    "compile:gcc": "os-compile .build/gcc-args.json",
+    "compile": "npm run compile:resolve && npm run compile:gcc && npm run compile:css",
+    "build": "echo 'Please run the build script in the opensphere project' && exit 1",
+    "package:update": "if git diff --name-only ORIG_HEAD HEAD | grep --quiet package.json; then echo 'UPDATE: package.json updated, consider running yarn in the workspace root'; fi"
+  },
+  "keywords": [
+    "opensphere",
+    "gis",
+    "geospatial",
+    "video"
+  ],
+  "author": "William Wall <wwall@caci.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/travis-cli": "^8.1.0",
+    "angular-mocks": "~1.5.x",
+    "eslint": "^6.0.0",
+    "eslint-config-opensphere": "^3.0.0",
+    "google-closure-compiler": "^20190415.0.0",
+    "husky": "^3.0.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^4.3.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.1",
+    "karma-firefox-launcher": "^1.2.0",
+    "karma-googmodule-preprocessor": "^1.0.1",
+    "karma-jasmine": "^0.1.0",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "mkdirp": "^0.5.1",
+    "modernizr": "~3.3.1",
+    "node-sass": "^4.12.0",
+    "opensphere-build-closure-helper": "^4.0.0",
+    "opensphere-build-docs": "^2.0.0",
+    "opensphere-build-resolver": "^6.2.1",
+    "rimraf": "^2.5.4",
+    "sass-lint": "^1.12.1"
+  },
+  "dependencies": {
+    "video.js": "^7.6.6",
+    "opensphere": "0.0.0-development"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "post-merge": "npm run package:update",
+      "post-rewrite": "npm run package:update"
+    }
+  }
+}
