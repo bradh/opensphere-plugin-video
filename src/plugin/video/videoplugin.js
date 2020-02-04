@@ -2,6 +2,8 @@ goog.provide('plugin.video.VideoPlugin');
 
 goog.require('os.plugin.AbstractPlugin');
 goog.require('os.plugin.PluginManager');
+goog.require('os.ui.Module');
+goog.require('os.ui.window');
 goog.require('plugin.video.Video');
 
 
@@ -29,17 +31,17 @@ os.ui.Module.directive('videocontrol', [plugin.video.Video.directive]);
  * @inheritDoc
  */
 plugin.video.VideoPlugin.prototype.init = function() {
-  plugin.video.VideoPlugin.prototype.playVideoInWindow(
-    "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
-    "Bip Bop Example",
-    "video2",
-    "muted"
-    );
+  this.playVideoInWindow(
+      'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+      'Bip Bop Example',
+      'video2',
+      'muted'
+  );
 };
 
 /**
  * Play a HTTP streaming video in a popup window
- * 
+ *
  * @param {string} url the URL to play from
  * @param {string} windowLabel a readable label for the window (caption)
  * @param {string} id window id.
