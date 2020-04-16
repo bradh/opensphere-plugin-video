@@ -12,12 +12,19 @@ class Controller {
     constructor($scope, $element) {
       this.url = $scope['url'];
       this.muted = $scope['muted'];
+      this.player = null;
+      $scope.$on(os.ui.WindowEventType.CLOSING, this.onWindowClose_.bind(this));
     }
 
     $onInit() {
-      let player = new videojs('video_2', {muted: this.muted});
-      player.src({type: "application/x-mpegURL", src: this.url});
-      player.play();
+      this.player = new videojs('video_2', {muted: this.muted});
+      this.player.overlayPlugin({customClass: 'example-class'});
+      this.player.src({type: "application/x-mpegURL", src: this.url});
+      this.player.play();
+    }
+
+    onWindowClose_() {
+      this.player.dispose();
     }
 }
 

@@ -38,6 +38,7 @@ module.exports = function(config) {
       {pattern: resolver.resolveModulePath('angular-mocks/angular-mocks.js', __dirname), watched: false, included: true, served: true},
       {pattern: resolver.resolveModulePath('d3/d3.min.js', __dirname), watched: false, included: true, served: true},
       {pattern: resolver.resolveModulePath('jsts/dist/jsts.min.js', __dirname), watched: false, included: true, served: true},
+      {pattern: resolver.resolveModulePath('video.js/dist/video.min.js', __dirname), watched: false, included: true, served: true},
 
       // source files for the script loader
       {pattern: 'src/**/*.js', watched: false, included: false, served: true},

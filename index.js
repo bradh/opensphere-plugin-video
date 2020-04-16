@@ -24,11 +24,6 @@ module.exports = {
       target: 'vendor/video.js',
       scripts: ['video.min.js'],
       css: ['video-js.min.css']
-    },
-    {
-      source: resolver.resolveModulePath('@videojs/http-streaming/dist', __dirname),
-      target: 'vendor/video.js',
-      scripts: ['videojs-http-streaming.min.js']
     }]
   }]
 };
