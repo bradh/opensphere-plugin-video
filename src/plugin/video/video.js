@@ -2,6 +2,7 @@ goog.module('plugin.video.Video');
 goog.module.declareLegacyNamespace();
 
 goog.require('plugin.video.defines');
+goog.require('goog.Timer');
 
 class Controller {
     /**
@@ -12,19 +13,24 @@ class Controller {
     constructor($scope, $element) {
       this.url = $scope['url'];
       this.muted = $scope['muted'];
+      this.src_id = $scope['src_id'];
       this.player = null;
+      goog.Timer.callOnce(this.onWindowOpen_.bind(this), 50);
       $scope.$on(os.ui.WindowEventType.CLOSING, this.onWindowClose_.bind(this));
     }
 
-    $onInit() {
-      this.player = new videojs('video_2', {muted: this.muted});
+    onWindowOpen_() {
+      var windowId = "video_" + this.src_id;
+      this.player = new videojs(windowId, {muted: this.muted});
       this.player.overlayPlugin({customClass: 'example-class'});
       this.player.src({type: "application/x-mpegURL", src: this.url});
       this.player.play();
     }
 
     onWindowClose_() {
-      this.player.dispose();
+      if (this.player) {
+        this.player.dispose();
+      }
     }
 }
 

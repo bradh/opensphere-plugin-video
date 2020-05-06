@@ -33,7 +33,6 @@ os.ui.Module.directive('videocontrol', [plugin.video.Video.directive]);
  */
 plugin.video.VideoPlugin.prototype.init = function() {
   // "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
-  
   /*
   plugin.video.VideoPlugin.prototype.playVideoInWindow(
     // "http://192.168.32.100:8091/stream/9f3ba172-75c0-4868-bf04-6e7abdc551ba/index.m3u8",
@@ -54,6 +53,10 @@ plugin.video.VideoPlugin.prototype.init = function() {
  * @param {string|boolean|undefined} muted whether to mute the audio (needs to be truthy if no user interaction)
  */
 plugin.video.VideoPlugin.prototype.playVideoInWindow = function(url, windowLabel, id, muted) {
+  if (os.ui.window.exists(id)) {
+    os.ui.window.bringToFront(id);
+    return;
+  }
   os.ui.window.create({
     'id': id,
     'x': 'center',
@@ -69,7 +72,7 @@ plugin.video.VideoPlugin.prototype.playVideoInWindow = function(url, windowLabel
     'width': 640,
     'height': 600,
     'icon': 'fa fa-camera'
-  }, 'videocontrol', undefined, undefined, undefined, {url: url, muted: muted});
+  }, 'videocontrol', undefined, undefined, undefined, {url: url, muted: muted, src_id: id});
 };
 
 // add the plugin to the application
