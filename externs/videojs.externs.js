@@ -51,7 +51,7 @@ videojs.getPlugin = function(className) {};
 
 /**
  * Plugin extension point
- * @param {Function} superClass
+ * @param {Component} superClass
  * @param {Object} subClassMethods
  */
 videojs.extend = function(superClass, subClassMethods) {};
@@ -68,3 +68,46 @@ videojs.registerPlugin = function(name, plugin) {};
  * @param {Object} configuration
  */
 videojs.prototype.overlayPlugin = function(configuration) {};
+
+/**
+ * Player child getter function.
+ * @param {string} childName
+ */
+videojs.prototype.getChild = function(childName) {};
+
+/**
+ * Player constructor
+ * @param {Element} tag
+ * @param {Object} optionsopt
+ * @constructor
+ */
+var Player = function(tag, optionsopt) {};
+
+/**
+ * Component constructor
+ * @param {Player} player
+ * @param {Object} optionsopt
+ * @constructor
+ */
+var Component = function(player, optionsopt) {};
+
+/**
+ * Call superclass.
+ * @param {Component} parent
+ * @param {Object} args
+ */
+Component.prototype.apply = function(parent, args) {};
+
+/**
+ * Component getter function.
+ * @param {string} name
+ * @returns {Component}
+ */
+videojs.getComponent = function(name) {};
+
+/**
+ * Component registration function
+ * @param {string} name
+ * @param {Component} component
+ */
+videojs.registerComponent = function(name, component) {};

@@ -75,7 +75,7 @@
     "sass-lint": "^1.12.1"
   },
   "dependencies": {
-    "video.js": "^7.6.6",
+    "video.js": "=7.9.7",
     "opensphere": "0.0.0-development"
   },
   "husky": {

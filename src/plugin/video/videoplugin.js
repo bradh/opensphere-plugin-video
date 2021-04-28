@@ -51,8 +51,9 @@ plugin.video.VideoPlugin.prototype.init = function() {
  * @param {string} windowLabel a readable label for the window (caption)
  * @param {string} id window id.
  * @param {string|boolean|undefined} muted whether to mute the audio (needs to be truthy if no user interaction)
+ * @param {!string|undefined} controlTopic the camera control topic (null if no control available)
  */
-plugin.video.VideoPlugin.prototype.playVideoInWindow = function(url, windowLabel, id, muted) {
+plugin.video.VideoPlugin.prototype.playVideoInWindow = function(url, windowLabel, id, muted, controlTopic) {
   if (os.ui.window.exists(id)) {
     os.ui.window.bringToFront(id);
     return;
@@ -72,7 +73,44 @@ plugin.video.VideoPlugin.prototype.playVideoInWindow = function(url, windowLabel
     'width': 640,
     'height': 600,
     'icon': 'fa fa-camera'
-  }, 'videocontrol', undefined, undefined, undefined, {url: url, muted: muted, src_id: id});
+  }, 'videocontrol', undefined, undefined, undefined, {url: url, muted: muted, src_id: id, controlTopic: controlTopic});
+};
+
+/**
+ * Handle PTZ click event
+ * @param {string} direction which direction to move
+ * @param {string} controlTopic the camera control topic
+ */
+plugin.video.VideoPlugin.click = function(direction, controlTopic) {
+  console.log(controlTopic + " - " + direction);
+  var tilt = 0.0;
+  var pan = 0.0;
+  var zoom = 0.0;
+  if (direction === 'up') {
+    tilt += 3.01;
+  }
+  if (direction === 'down') {
+    tilt -= 3.01;
+  }
+  if (direction === 'left') {
+    pan -= 3.01;
+  }
+  if (direction === 'right') {
+    pan += 3.01;
+  }
+  var command = {
+    "records":
+      [{
+        "value": {
+          'command': "RelativePanTiltZoomRequest",
+          'tiltDegrees':tilt,
+          'panDegrees':pan,
+          'zoomPercent':zoom,
+          'requestingController': "Opensphere-FIXME"
+        }
+      }]
+  };
+  plugin.sbtracks.TracksPlugin.sendKafkaCommand_(controlTopic, command)
 };
 
 // add the plugin to the application
